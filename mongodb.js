@@ -1,6 +1,9 @@
 var MongoClient = require('mongodb').MongoClient;
 
-MongoClient.connect('mongodb://127.0.0.1:27017/nodeintro', function (err, db) {
+var mongodbURI = process.env.MONGOHQ_URL ||
+  'mongodb://127.0.0.1:27017/nodeintro';
+
+MongoClient.connect(mongodbURI, function (err, db) {
   if (err) {
     console.error('Oh no, connection troubles!', err);
     return;
@@ -25,11 +28,6 @@ MongoClient.connect('mongodb://127.0.0.1:27017/nodeintro', function (err, db) {
         process.exit(1);
       }
       console.log('Found', result);
-
-      db.close(function (err) {
-        if (err) return console.error('WTF, no way to close the connection', err);
-        console.log('That\'s all folks!');
-      });
     });
   });
 });
