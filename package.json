@@ -1,0 +1,14 @@
+{
+  "name": "nodjs-intro",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": ">= 0.1.22",
+    "underscore": "1.4.2",
+    "mongodb": "1.2.0",
+    "mongoose": "3.4.0"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
