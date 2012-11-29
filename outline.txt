@@ -1,0 +1,158 @@
+Introduction to Node.js
+=====
+
+
+What is Node.js?
+-----
+- Since 2009, pretty young project.
+- Built on top of V8, Google's JavaScript runtime.
+- Environment, not a server or a set of servers, not a framework.
+- Provides low-level I/O related libraries
+- Asynchronous and evented (adds an event loop on top of JavaScript in particular)
+
+
+Origins
+-----
+- Most server apps use I/O a lot:
+ * to retrieve a file
+ * to exchange with a database
+ * to send requests to a remote peer
+- Performance issues with usual server implementations in synchronous environment:
+ * costly to maintain, create, delete threads in most environments
+ * need to create as many threads as pending requests
+
+
+Why JavaScript?
+-----
+- It's in all Web browsers, more available than Java in its glory days.
+- Good to use same language for client code and server code, possibility to reuse most of the code
+- JSON is popular: JSON.parse and JSON.stringify for direct use in JavaScript
+- Trendy, growing community, growing number of libraries, open source friendly (people used to copy-and-paste in the browser)
+
+
+Installing Node.js
+-----
+- Note on versioning.
+
+
+The Event loop
+-----
+- Basis for asynchronous programming
+- All usual JavaScript devs know what it is because that's how a Web browser works.
+- Note setTimeout is window.setTimeout, i.e. setTimeout is not a JavaScript feature.
+- Rule of thumb of async:
+ * use a callback for one-off events at the end of a process
+ * use events for repeating events or in-progress
+- Async is hard. It's easy to create deeply-nested spaghetti code. It's also easy to lose track of what is synchronous and what is not (e.g. Underscore functions are synchronous yet use callbacks).
+- One timeline.
+- Notion of "tick".
+- Synchronous has its merits. It's actually possible within a Web browser in a Web worker without blocking the main thread. Short discussion on CommonJS.
+- Asynchronous programming techniques:
+ * define processing bits before, assigning names to each of them
+ * document code ;)
+
+
+Node.js basics
+-----
+- No "window" object. Node.js is not a Web browser!
+- No DOM or jQuery. Node.js is not a Web browser!
+- A few global objects replace "window" in Node.js, in particular:
+ * process
+ * usual "window" thingies such as console, setTimeout, clearTimeout
+ * require, exports, module.exports for module management
+- Callbacks with error as first argument.
+- Events: EventEmitter class
+- Node runs on the command-line. You can use it for batch files!
+
+
+Scoping context
+-----
+- Beware of scope. The usual construct:
+  (function () { ... })()
+  useful to merge code.
+- Private functions/properties are scoped functions/properties
+- "this" is Charlie in JavaScript. ask yourself the question: where is Charlie?
+  $('a').click(function () {
+    // "this" is the DOM element that triggered
+  });
+- Ways to change "this":
+ * func.call(context) or func.apply(context)
+ * _.bind(func, this);
+ * var charlie = this;
+
+
+Node modules
+-----
+- Core modules that expose low-level functionality (Crypto, DNS, File System, TCP, HTTP, VM)
+- "Userland" modules that turn Node.js into an environment that is pleasant to work with at a higher level
+- Most userland modules can be installed with "npm".
+- Recommended modules: underscore.js, async.js
+- Presentation of "npm"
+- package.json
+- "require", "exports" and "module.exports" functions.
+
+
+Debugging in Node.js
+-----
+- node-inspector: https://github.com/dannycoates/node-inspector
+- "debugger;" statements for breakpoints
+- node debug for command-line gurus
+
+Creating a simple HTTP server
+-----
+var http = require('http');
+var server = http.createServer(function (request, response) {
+  response.writeHead(200, {
+    'content-type': 'text/plain'
+  });
+  response.end('These dotJS workshops rulez!');
+});
+server.listen(8000);
+- Exercise: ???
+
+
+Working with streams
+-----
+- 'data', 'end', 'close' events
+- Exercise: chat application?
+
+
+Web server made easy with express.js
+-----
+- routes
+- middlewares
+- templating
+- Exercise: ???
+
+
+Connecting to a MongoDB instance
+-----
+- mongoDB installation: http://www.mongodb.org/
+- In Node.js, using MongoDB native API module:
+  npm install mongodb
+- Using Mongoose
+- Schema definition
+- Beware, getters/setters used all around!
+
+
+Putting it all together
+-----
+- Create Twitter, connecting to a MongoDB instance.
+- Create a Web application connected to a MongoDB instance that stores contact information.
+- Client-side, the Web application renders the list of contacts it has already saved and lets a user upload its own contact information.
+- The app should refresh the list almost in real-time.
+
+
+Deploying your app on Heroku
+-----
+- Create account
+- Heroku Toolbelt: https://toolbelt.herokuapp.com/
+- A "simple" git push command
+- Creating Heroku remote commands
+
+
+Going further (if time allows and interest shows up)
+-----
+- Unification of client and server codebase:
+ * asynchronous modules using AMD
+ * Backbone.js as common foundation for models?
